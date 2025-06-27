@@ -1,0 +1,290 @@
+/* Global Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nav/Header */
+.nav {
+  background-color: #2e86de;
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav h1 {
+  font-size: 1.8rem;
+}
+
+/* Main Section */
+.main {
+  display: flex;
+  flex: 1;
+  padding: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Employee List */
+.listContainer {
+  flex: 1;
+  min-width: 300px;
+}
+
+.list-main {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.list-main h2 {
+  margin-bottom: 1rem;
+  color: #2e86de;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+thead {
+  background-color: #e8f0fe;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+button.delete,
+button.update {
+  padding: 0.4rem 0.7rem;
+  margin-right: 0.4rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button.delete {
+  background-color: #e74c3c;
+  color: white;
+}
+
+button.update {
+  background-color: #27ae60;
+  color: white;
+}
+
+button.delete:hover {
+  background-color: #c0392b;
+}
+
+button.update:hover {
+  background-color: #1e8449;
+}
+
+/* Employee Form */
+.form {
+  flex: 1;
+  min-width: 300px;
+}
+
+.form-main {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-main h1 {
+  margin-bottom: 1rem;
+  color: #2e86de;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.form input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #2e86de;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-buttons button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+.form-buttons button[type="submit"] {
+  background-color: #2e86de;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background-color: #1b4f72;
+}
+
+.form-buttons button[type="button"] {
+  background-color: #7f8c8d;
+}
+
+.form-buttons button[type="button"]:hover {
+  background-color: #616a6b;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0px;
+}
+/* ---------- Responsive Enhancements ---------- */
+
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .listContainer,
+  .form {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-main h1,
+  .list-main h2 {
+    font-size: 1.3rem;
+  }
+
+  .form input {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .form-buttons button {
+    width: 100%;
+    text-align: center;
+  }
+
+  button.delete,
+  button.update {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .form-buttons {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav h1 {
+    font-size: 1.2rem;
+  }
+
+  .form-main,
+  .list-main {
+    padding: 1rem;
+    border-radius: 6px;
+  }
+
+  .form input {
+    font-size: 0.9rem;
+  }
+
+  .form-buttons button {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+  }
+
+  td {
+    padding: 0.5rem;
+    text-align: right;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    font-weight: bold;
+    text-align: left;
+    color: #555;
+  }
+}
