@@ -1,20 +1,29 @@
 
+import { useState } from 'react';
 import { deleteEmployee } from '../services/employeeService';
 import { toast } from 'react-toastify';
 
 
 const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
-    
 
-    const  handleDelete =async(id)=>{
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+
+    const confirmDelete = (id) => {
+        setSelectedEmployeeId(id);
+        setShowConfirmModal(true);
+    };
+
+    const  handleDelete =async()=>{
         try {
-            if (window.confirm("Are you sure you want to delete this employee?")) {
-            await deleteEmployee(id);
+            await deleteEmployee(selectedEmployeeId);
             toast.success("Employee deleted successfully!");
             fetchEmployees();
-            }
         } catch (error) {
             console.error('Error deleting employee:', error);
+        }finally {
+            setShowConfirmModal(false);
+            setSelectedEmployeeId(null);
         }
     }
 
@@ -40,16 +49,29 @@ const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
                             <tr key={emp.id}>
                                 <td>{emp.name}</td>
                                 <td>{emp.department}</td>
-                                <td>{emp.joiningDate.split('T')[0]}</td> {/* Format date */}
+                                <td>{emp.joiningDate.split('T')[0]}</td> 
                                 <td>{emp.salary}</td>
                                 <td>
-                                    <button className= "delete"onClick={() => handleDelete(emp.id)}>Delete</button>
+                                    <button className= "delete"onClick={() => confirmDelete(emp.id)}>Delete</button>
                                     <button className= "update" onClick={() => onEdit(emp)}>Update</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            )}
+            {
+                showConfirmModal && (
+                 <div className="modal-backdrop">
+                    <div className="modal-box">
+                            <h3>Confirm Delete</h3>
+                            <p>Are you sure you want to delete the employee</p>
+                            <div className='modal-action'>
+                                <button className= "delete-confirm"onClick={handleDelete}>Yes,Delete</button>
+                                <button className= "cancel-confirm"onClick={()=>setShowConfirmModal(false)}>Cancel</button>
+                            </div>
+                    </div>
+                 </div>
             )}
         </div>
     );

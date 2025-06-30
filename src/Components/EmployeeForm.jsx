@@ -23,8 +23,8 @@ const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee 
     const handleSubmit = async (e) => {
         e.preventDefault();
          const newErrors = {};
-                if (!employee.name.trim()) {
-                    newErrors.name = "Name is required";
+                if (!employee.name.trim()  ) {
+                    newErrors.name = "String Name is required";
                 }
 
                 if (!employee.department.trim()) {
