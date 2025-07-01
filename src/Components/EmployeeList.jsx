@@ -4,7 +4,7 @@ import { deleteEmployee } from '../services/employeeService';
 import { toast } from 'react-toastify';
 
 
-const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
+const EmployeeList = ({employees,fetchEmployees,onEdit,user}) => {
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
@@ -16,7 +16,7 @@ const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
 
     const  handleDelete =async()=>{
         try {
-            await deleteEmployee(selectedEmployeeId);
+            await deleteEmployee(selectedEmployeeId,user.id);
             toast.success("Employee deleted successfully!");
             fetchEmployees();
         } catch (error) {
@@ -41,7 +41,7 @@ const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
                             <th>Department</th>
                             <th>Joining Date</th>
                             <th>Salary</th>
-                            <th>Actions</th>
+                            {user.role === "Manager" && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -51,10 +51,12 @@ const EmployeeList = ({employees,fetchEmployees,onEdit}) => {
                                 <td>{emp.department}</td>
                                 <td>{emp.joiningDate.split('T')[0]}</td> 
                                 <td>{emp.salary}</td>
+                                {user.role === "Manager" && (
                                 <td>
-                                    <button className= "delete"onClick={() => confirmDelete(emp.id)}>Delete</button>
-                                    <button className= "update" onClick={() => onEdit(emp)}>Update</button>
+                                <button className="delete" onClick={() => confirmDelete(emp.id)}>Delete</button>
+                                <button className="update" onClick={() => onEdit(emp)}>Update</button>
                                 </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>

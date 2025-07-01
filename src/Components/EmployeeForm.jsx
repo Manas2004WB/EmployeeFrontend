@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { addEmployee, updateEmployee } from '../services/employeeService';
 import { toast } from 'react-toastify';
 
-const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee }) => {
+const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee,user }) => {
     const [employee, setEmployee] = useState({
         id: null,
         name: '',
@@ -71,11 +71,11 @@ const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee 
 
         try {
             if (selectedEmployee) {
-                await updateEmployee(selectedEmployee.id, employee);
+                await updateEmployee(selectedEmployee.id, employee,user.id);
                 toast.success('Employee updated successfully!');
             } else {
                 const { id, ...employeeToAdd } = employee;
-                await addEmployee(employeeToAdd);
+                await addEmployee(employeeToAdd,user.id);
                 toast.success('Employee added successfully!');
             }
 
@@ -113,6 +113,11 @@ const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee 
             resetForm();
         }
     }, [selectedEmployee]);
+
+
+        if (user.role !== "Manager") {
+        return null; // or return <p>View only access</p>;
+        }
 
     return (
         <div className='form-main'>
