@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { addEmployee, updateEmployee } from '../services/employeeService';
 import { toast } from 'react-toastify';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from '@/Components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee,user }) => {
     const [employee, setEmployee] = useState({
@@ -116,77 +127,110 @@ const EmployeeForm = ({ fetchEmployees, selectedEmployee, clearSelectedEmployee,
 
 
         if (user.role !== "Manager") {
-        return null; // or return <p>View only access</p>;
+          return <p className="text-white/70">View only access</p>;
         }
 
     return (
-        <div className='form-main'>
-            <h1>{selectedEmployee ? 'Edit Employee' : 'Add New Employee'}</h1>
-            <form onSubmit={handleSubmit} className='form'>
-                <div>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={employee.name}
-                        onChange={handleChange}
-                    />
-                    {errors.name && <p className="error">{errors.name}</p>}
-                </div>
+      <Card className="bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-xl">
+      <CardContent className="p-6">
+        <h2 className="text-xl font-semibold mb-4">
+          {selectedEmployee ? "Edit Employee" : "Add New Employee"}
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
+          <div>
+            <Label htmlFor="name" className="text-white">Name</Label>
+            <Input
+              id="name"
+              name="name"
+              value={employee.name}
+              onChange={handleChange}
+              autoComplete="off"
+              className="bg-white/10 text-white placeholder:text-white/60 border border-white/30 focus:ring-2 focus:ring-primary"
+            />
+            {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
+          </div>
 
-                <div>
-                    <label>Department:</label>
-                    <input
-                        type="text"
-                        name="department"
-                        value={employee.department}
-                        onChange={handleChange}
-                    />
-                    {errors.department && <p className="error">{errors.department}</p>}
-                </div>
+          {/* Department */}
+          <div>
+            <Label htmlFor="department" className="text-white mb-1 block">Department</Label>
+            <Select
+               value={employee.department}
+               onValueChange={(value) =>
+                handleChange({ target: { name: "department", value } })
+               }
+            >
+              <SelectTrigger
+                  id="department"
+                  className="bg-white/10 text-white border border-white/30 focus:ring-2 focus:ring-primary"
+                >
+                  <SelectValue placeholder="Select a department" />
+              </SelectTrigger>
+               <SelectContent className="bg-white/10 text-white border border-white/30 backdrop-blur-md">
+                  <SelectItem value="HR">HR</SelectItem>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Finance">Finance</SelectItem>
+                  <SelectItem value="Sales">Sales</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                </SelectContent>
+            </Select>
+            {errors.department && <p className="text-red-400 text-sm mt-1">{errors.department}</p>}
+          </div>
 
-                <div>
-                    <label>Joining Date:</label>
-                    <input
-                        type="date"
-                        name="joiningDate"
-                        value={employee.joiningDate}
-                        onChange={handleChange}
-                    />
-                    {errors.joiningDate && <p className="error">{errors.joiningDate}</p>}
-                </div>
+          {/* Joining Date */}
+          <div>
+            <Label htmlFor="joiningDate" className="text-white">Joining Date</Label>
+            <Input
+              type="date"
+              id="joiningDate"
+              name="joiningDate"
+              value={employee.joiningDate}
+              max={new Date().toISOString().split("T")[0]}
+              min="2019-01-01"
+              onChange={handleChange}
+              className="bg-white/10 text-white placeholder:text-white/60 border border-white/30 focus:ring-2 focus:ring-primary"
+            />
+            {errors.joiningDate && <p className="text-red-400 text-sm mt-1">{errors.joiningDate}</p>}
+          </div>
 
-                <div>
-                    <label>Salary:</label>
-                    <input
-                        type="number"
-                        name="salary"
-                        value={employee.salary}
-                        onChange={handleChange}
-                        min="0"
-                    />
-                    {errors.salary && <p className="error">{errors.salary}</p>}
-                </div>
+          {/* Salary */}
+          <div>
+            <Label htmlFor="salary" className="text-white">Salary</Label>
+            <Input
+              type="number"
+              id="salary"
+              name="salary"
+              value={employee.salary}
+              onChange={handleChange}
+              min="0"
+              className="remove-arrow bg-white/20 text-white placeholder-white/60 border-white/30"
+            />
+            {errors.salary && <p className="text-red-400 text-sm mt-1">{errors.salary}</p>}
+          </div>
 
-                <div className="form-buttons">
-                    <button type="submit">
-                        {selectedEmployee ? 'Update Employee' : 'Add Employee'}
-                    </button>
+          {/* Buttons */}
+          <div className="flex gap-4 pt-4">
+            <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 w-full">
+              {selectedEmployee ? "Update Employee" : "Add Employee"}
+            </Button>
 
-                    {selectedEmployee && (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                clearSelectedEmployee();
-                                resetForm();
-                            }}
-                        >
-                            Cancel
-                        </button>
-                    )}
-                </div>
-            </form>
-        </div>
+            {selectedEmployee && (
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full border border-white/20"
+                onClick={() => {
+                  clearSelectedEmployee();
+                  resetForm();
+                }}
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
+        </form>
+      </CardContent>
+    </Card>
     );
 };
 
